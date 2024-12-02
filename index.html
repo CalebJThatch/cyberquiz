@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cybersecurity Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .question {
+            margin-bottom: 30px;
+        }
+        .answers button {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            background-color: #e7e7e7;
+            border-radius: 5px;
+        }
+        .answers button:hover {
+            background-color: #d4d4d4;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        #score {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #restart {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+        }
+        #restart:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cybersecurity Quiz</h1>
+    <div id="quiz"></div>
+    <p id="score"></p>
+    <button id="restart" onclick="restartQuiz()">Restart Quiz</button>
+
+    <script>
+        const quizData = [
+            {
+                question: "1. What is the main purpose of a firewall?",
+                options: [
+                    "A. To encrypt data",
+                    "B. To filter incoming and outgoing network traffic",
+                    "C. To prevent phishing",
+                    "D. To block websites"
+                ],
+                answer: 1
+            },
+            {
+                question: "2. Which of these is NOT a type of malware?",
+                options: [
+                    "A. Virus",
+                    "B. Worm",
+                    "C. Cookie",
+                    "D. Trojan"
+                ],
+                answer: 2
+            },
+            {
+                question: "3. What does two-factor authentication add to security?",
+                options: [
+                    "A. A second password",
+                    "B. A combination of username and password",
+                    "C. An additional verification step",
+                    "D. Biometric scanning only"
+                ],
+                answer: 2
+            },
+            {
+                question: "4. What is phishing?",
+                options: [
+                    "A. A technique to catch fish",
+                    "B. An attempt to acquire sensitive information by impersonating a trustworthy entity",
+                    "C. A type of firewall",
+                    "D. Encrypting data for secure communication"
+                ],
+                answer: 1
+            },
+            {
+                question: "5. Which of the following is a strong password?",
+                options: [
+                    "A. Password123",
+                    "B. 12345678",
+                    "C. MyBirthday",
+                    "D. 7h!sI$AStr0ngP@$$w0rd"
+                ],
+                answer: 3
+            },
+            {
+                question: "6. What does VPN stand for?",
+                options: [
+                    "A. Virtual Private Network",
+                    "B. Visual Packet Node",
+                    "C. Variable Protection Number",
+                    "D. Verified Protocol Network"
+                ],
+                answer: 0
+            },
+            {
+                question: "7. What is SQL injection?",
+                options: [
+                    "A. A method to speed up SQL databases",
+                    "B. An attack that inserts malicious code into SQL statements",
+                    "C. A vaccine for databases",
+                    "D. A type of data encryption"
+                ],
+                answer: 1
+            },
+            {
+                question: "8. Which protocol is used for secure web browsing?",
+                options: [
+                    "A. HTTP",
+                    "B. FTP",
+                    "C. HTTPS",
+                    "D. SMTP"
+                ],
+                answer: 2
+            },
+            {
+                question: "9. What is social engineering in cybersecurity?",
+                options: [
+                    "A. Designing social media platforms",
+                    "B. A method of building social networks",
+                    "C. Manipulating people into giving up confidential information",
+                    "D. Engineering social policies for companies"
+                ],
+                answer: 2
+            },
+            {
+                question: "10. What is the purpose of encryption?",
+                options: [
+                    "A. To compress data",
+                    "B. To convert data into a secure code to prevent unauthorized access",
+                    "C. To backup data",
+                    "D. To delete data permanently"
+                ],
+                answer: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            if (currentQuestion < quizData.length) {
+                const quizDiv = document.getElementById('quiz');
+                quizDiv.innerHTML = '';
+                const q = quizData[currentQuestion];
+                const questionEl = document.createElement('div');
+                questionEl.className = 'question';
+                questionEl.innerHTML = `<p>${q.question}</p>`;
+                const answersEl = document.createElement('div');
+                answersEl.className = 'answers';
+                q.options.forEach((option, index) => {
+                    const button = document.createElement('button');
+                    button.innerText = option;
+                    button.onclick = () => checkAnswer(index);
+                    answersEl.appendChild(button);
+                });
+                questionEl.appendChild(answersEl);
+                quizDiv.appendChild(questionEl);
+            } else {
+                showScore();
+            }
+        }
+
+        function checkAnswer(selected) {
+            const q = quizData[currentQuestion];
+            if (selected === q.answer) {
+                score++;
+            }
+            currentQuestion++;
+            loadQuestion();
+        }
+
+        function showScore() {
+            const quizDiv = document.getElementById('quiz');
+            quizDiv.innerHTML = '';
+            const scoreEl = document.getElementById('score');
+            scoreEl.innerText = `You scored ${score} out of ${quizData.length}!`;
+            const restartBtn = document.getElementById('restart');
+            restartBtn.style.display = 'inline-block';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('score').innerText = '';
+            document.getElementById('restart').style.display = 'none';
+            loadQuestion();
+        }
+
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>
